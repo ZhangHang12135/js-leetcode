@@ -15,23 +15,39 @@
  * @param {string} s
  * @return {boolean}
  */
+// var isValid = function(s) {
+//     let len = s.length;
+//     if(len == 0) return true;
+//     let obj = {
+//         ')' : '(',
+//         '}' : '{',
+//         ']' : '['
+//     }
+//     let arr = [s[0]];
+//     for(let i = 1; i < len; i++){
+//         if (obj[s[i]] && obj[s[i]] == arr.slice(-1)[0]){
+//             arr.pop();
+//         } else {
+//             arr.push(s[i]);
+//         } 
+//     }
+//     // console.log(arr)
+//     return arr.length == 0;
+// };
 var isValid = function(s) {
-    let len = s.length;
-    if(len == 0) return true;
-    let obj = {
-        ')' : '(',
-        '}' : '{',
-        ']' : '['
-    }
-    let arr = [s[0]];
-    for(let i = 1; i < len; i++){
-        if (obj[s[i]] && obj[s[i]] == arr.slice(-1)[0]){
-            arr.pop();
+    let map = {
+        ')': '(',
+        '}': '{',
+        ']': '['
+    };
+    let stack = [];
+    for(let i = 0; i < s.length; i++){
+        if (map[s[i]] && map[s[i]] === stack.slice(-1)[0]) {
+            stack.pop();
         } else {
-            arr.push(s[i]);
-        } 
+            stack.push(s[i]);
+        }
     }
-    // console.log(arr)
-    return arr.length == 0;
+    return stack.length === 0;
 };
-console.log(isValid(''))
+console.log(isValid('()'))

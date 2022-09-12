@@ -69,7 +69,47 @@ let longestPalindrome2 = function (s){
     console.log(maxL, maxi)
     return s.slice(maxi,maxi+maxL);
 }
+var longestPalindrome = function(s) {
+    let n = s.length;
+    if (n < 2) {
+        return s;
+    }
+    let maxLen = 1;
+    let begin = 0;
+    let dp = new Array(n);
+    for (let i = 0; i < n; i++) {
+        dp[i] = [];
+        // 左上到右下线 为起始位置
+        dp[i][i] = true;
+    }
+    // 从长度为2的子串开始
+    for(let len = 2; len <= n; len++) {
+        // 左边界
+        for(let i = 0; i < n; i++) {
+            // 右边界
+            let j = i + len - 1;
+            if (j >= n) {
+                break;
+            }
+            if (s[i] !== s[j]) {
+                dp[i][j] = false;
+            } else {
+                // 3个以内长度的可以直接判断
+                if (j - i < 3) {
+                    dp[i][j] = true;
+                } else {
+                    dp[i][j] = dp[i+1][j-1]
+                }
+            }
+            if (dp[i][j] && len > maxLen) {
+                maxLen = len;
+                begin = i;
+            }
+        }
+    }
+    return s.slice(begin, begin + maxLen);
+};
 console.time();
-console.log(longestPalindrome2("anugnxshgonmqydttcvmtsoaprxnhpmpovdolbidqiyqubirkvhwppcdyeouvgedccipsvnobrccbndzjdbgxkzdbcjsjjovnhpnbkurxqfupiprpbiwqdnwaqvjbqoaqzkqgdxkfczdkznqxvupdmnyiidqpnbvgjraszbvvztpapxmomnghfaywkzlrupvjpcvascgvstqmvuveiiixjmdofdwyvhgkydrnfuojhzulhobyhtsxmcovwmamjwljioevhafdlpjpmqstguqhrhvsdvinphejfbdvrvabthpyyphyqharjvzriosrdnwmaxtgriivdqlmugtagvsoylqfwhjpmjxcysfujdvcqovxabjdbvyvembfpahvyoybdhweikcgnzrdqlzusgoobysfmlzifwjzlazuepimhbgkrfimmemhayxeqxynewcnynmgyjcwrpqnayvxoebgyjusppfpsfeonfwnbsdonucaipoafavmlrrlplnnbsaghbawooabsjndqnvruuwvllpvvhuepmqtprgktnwxmflmmbifbbsfthbeafseqrgwnwjxkkcqgbucwusjdipxuekanzwimuizqynaxrvicyzjhulqjshtsqswehnozehmbsdmacciflcgsrlyhjukpvosptmsjfteoimtewkrivdllqiotvtrubgkfcacvgqzxjmhmmqlikrtfrurltgtcreafcgisjpvasiwmhcofqkcteudgjoqqmtucnwcocsoiqtfuoazxdayricnmwcg"));
-// console.log(longestPalindrome2(""))
+console.log(longestPalindrome("anugnxshgonmqydttcvmtsoaprxnhpmpovdolbidqiyqubirkvhwppcdyeouvgedccipsvnobrccbndzjdbgxkzdbcjsjjovnhpnbkurxqfupiprpbiwqdnwaqvjbqoaqzkqgdxkfczdkznqxvupdmnyiidqpnbvgjraszbvvztpapxmomnghfaywkzlrupvjpcvascgvstqmvuveiiixjmdofdwyvhgkydrnfuojhzulhobyhtsxmcovwmamjwljioevhafdlpjpmqstguqhrhvsdvinphejfbdvrvabthpyyphyqharjvzriosrdnwmaxtgriivdqlmugtagvsoylqfwhjpmjxcysfujdvcqovxabjdbvyvembfpahvyoybdhweikcgnzrdqlzusgoobysfmlzifwjzlazuepimhbgkrfimmemhayxeqxynewcnynmgyjcwrpqnayvxoebgyjusppfpsfeonfwnbsdonucaipoafavmlrrlplnnbsaghbawooabsjndqnvruuwvllpvvhuepmqtprgktnwxmflmmbifbbsfthbeafseqrgwnwjxkkcqgbucwusjdipxuekanzwimuizqynaxrvicyzjhulqjshtsqswehnozehmbsdmacciflcgsrlyhjukpvosptmsjfteoimtewkrivdllqiotvtrubgkfcacvgqzxjmhmmqlikrtfrurltgtcreafcgisjpvasiwmhcofqkcteudgjoqqmtucnwcocsoiqtfuoazxdayricnmwcg"));
+// console.log(longestPalindrome("cbbd?"))
 console.timeEnd();

@@ -28,46 +28,63 @@ E C   I H   N
 T     S     G
  
  */
-var convert = function(s, numRows) {
-    if(numRows == 1) return s;
-    let arr = [];
-    let n = numRows;
-    while(numRows > 0){
-        arr[numRows-1] = [];
-        numRows--;
-    }
-    let len = s.length;
-    let i = 0;
-    let j = 0;
-    let tag = 1;
-    for(let k = 0; k < len; k++){
-        arr[i][j] = s[k];
-        i += tag; 
-        if(i == n){
-            tag = -1; 
-            i -=2;
-        }
-        if(i == -1) {
-            tag = 1; 
-            i +=2;
-        }
-        if(tag == -1) j++;
-    }
-    console.log(arr);
-    return leftToRight(arr)
-};
-function leftToRight(arr){
-    let result = '';
-    let n = arr.length;
-    for(let i = 0; i < n; i++){
-        let m = arr[i].length;
-        let j = 0;
-        while(j < m){
-            if(arr[i][j]) result += arr[i][j];
-            j++;
-        }
+// var convert = function(s, numRows) {
+//     if(numRows == 1) return s;
+//     let arr = [];
+//     let n = numRows;
+//     while(numRows > 0){
+//         arr[numRows-1] = [];
+//         numRows--;
+//     }
+//     let len = s.length;
+//     let i = 0;
+//     let j = 0;
+//     let tag = 1;
+//     for(let k = 0; k < len; k++){
+//         arr[i][j] = s[k];
+//         i += tag; 
+//         if(i == n){
+//             tag = -1; 
+//             i -=2;
+//         }
+//         if(i == -1) {
+//             tag = 1; 
+//             i +=2;
+//         }
+//         if(tag == -1) j++;
+//     }
+//     console.log(arr);
+//     return leftToRight(arr)
+// };
+// function leftToRight(arr){
+//     let result = '';
+//     let n = arr.length;
+//     for(let i = 0; i < n; i++){
+//         let m = arr[i].length;
+//         let j = 0;
+//         while(j < m){
+//             if(arr[i][j]) result += arr[i][j];
+//             j++;
+//         }
 
+//     }
+//     return result;
+// }
+// console.log(convert("ABCD",3));
+var convert = function(s, numRows) {
+    let n = s.length, t = 2 * numRows - 2;
+    if (numRows === 1 || numRows >= n) {
+        return s;
     }
-    return result;
-}
-console.log(convert("ABCD",3));
+    let ans = [];
+    for(let i = 0; i < numRows; i++) {
+        for (let j = 0; j < n - i; j += t) {
+            ans.push(s[i + j]);
+            if (i > 0 && i < numRows - i && j + t - i < n) {
+                ans.push(s[j + t - i]);
+            }
+        }
+    }
+    return ans.join('');
+};
+console.log(convert("PAYPALISHIRING",4));
