@@ -1,4 +1,5 @@
 var maxProfit = function(prices) {
+    debugger;
     let max= 0;
     let min = Infinity;
     for(let i = 0; i < prices.length; i++) {
